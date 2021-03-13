@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件，甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等；
+我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。
+最令人感兴趣的就是，这些可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。">
+  
+  <meta name="author" content="Techoc&#39;s">
+  <meta name="keywords" content="">
+  
+  <title>JavaLog - Techoc&#39;s</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"techoc.xyz","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Techoc's</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.yuque.com/techoc">
+                <i class="iconfont icon-book-fill"></i>
+                知识库
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.techoc.workers.dev/">
+                    <i class="iconfont icon-link-fill"></i>
+                    Github加速
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://img.rruu.net/">
+                    <i class="iconfont icon-link-fill"></i>
+                    图床
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://img.rruu.net/image/5fedecc5d3000') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaLog">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Techoc's
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-01 10:31" pubdate>
+        2021年1月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaLog</h1>
+            
+            <div class="markdown-body">
+              <p>通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件，甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等；<br />
+我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。<br />
+最令人感兴趣的就是，这些可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。</p>
+<a id="more"></a>
+<p><img src="https://img.rruu.net/image/5fee8edbd8556" srcset="/img/loading.gif" alt="" /></p>
+<h1 id="java中日志的使用"><a class="markdownIt-Anchor" href="#java中日志的使用"></a> Java中日志的使用</h1>
+<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
+<h3 id="11-日志介绍"><a class="markdownIt-Anchor" href="#11-日志介绍"></a> 1.1 日志介绍</h3>
+<blockquote>
+<p>用于记录系统中发生的各种事件。记录的位置常见的有：控制台、磁盘文件等</p>
+</blockquote>
+<h3 id="12-日志级别"><a class="markdownIt-Anchor" href="#12-日志级别"></a> 1.2 日志级别</h3>
+<blockquote>
+<p>日志级别从低到高：<br />
+TRACE、DEBUG、INFO、WARN、ERROR、FATAL</p>
+</blockquote>
+<h3 id="13日志作用"><a class="markdownIt-Anchor" href="#13日志作用"></a> 1.3日志作用</h3>
+<blockquote>
+<ul>
+<li>通过日志观察、分析项目的运行情况（项目维护）</li>
+<li>通过日志分析用户的使用情况（大数据分析）</li>
+<li>…</li>
+</ul>
+</blockquote>
+<h2 id="二-解决方案1"><a class="markdownIt-Anchor" href="#二-解决方案1"></a> 二、解决方案1</h2>
+<h2 id="21-log4jcommons-logging"><a class="markdownIt-Anchor" href="#21-log4jcommons-logging"></a> 2.1 Log4j+Commons-Logging</h2>
+<h3 id="211导入依赖"><a class="markdownIt-Anchor" href="#211导入依赖"></a> 2.1.1导入依赖</h3>
+<blockquote>
+<p>项目中添加Log4j和Commons-Logging的依赖</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.17<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="212-基本使用"><a class="markdownIt-Anchor" href="#212-基本使用"></a> 2.1.2 基本使用</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.commons.logging.Log;<br><span class="hljs-keyword">import</span> org.apache.commons.logging.LogFactory;<br><span class="hljs-keyword">import</span> org.junit.Test;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span> </span>&#123;<br>    <span class="hljs-comment">//日志对象</span><br>    <span class="hljs-keyword">private</span> Log log = LogFactory.getLog(test.class);<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;<br>        log.trace(<span class="hljs-string">&quot;hello trace&quot;</span>);<br>        log.debug(<span class="hljs-string">&quot;hello debug&quot;</span>);<br>        log.info(<span class="hljs-string">&quot;hello info&quot;</span>);<br>        log.warn(<span class="hljs-string">&quot;hello warn&quot;</span>);<br>        log.error(<span class="hljs-string">&quot;hello error&quot;</span>);<br>        log.fatal(<span class="hljs-string">&quot;hello fatal&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="213-配置信息"><a class="markdownIt-Anchor" href="#213-配置信息"></a> 2.1.3 配置信息</h3>
+<blockquote>
+<p>创建配置文件 <code>log4j.xml</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%p</td>
+<td>输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>输出自应用启动到输出该log信息耗费的毫秒数</td>
+</tr>
+<tr>
+<td>%C</td>
+<td>输出所在类的全名</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>输出产生该日志事件的线程名</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>输出一个回车换行符</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>输出日志时间点的日期或时间，默认格式为<code>ISO8601</code>,也可以在其后指定格式，比如：<code>%dfyyy-MM-dd HH:mm:ss,SSS&#125;</code>,输出类似：<code>2002-10-1822:10:28,921</code></td>
+</tr>
+<tr>
+<td>%l</td>
+<td>输出日志事件的发生位置，包括类名、发生的线程，以及在代码中的行数。举例：<code>Testlo4.main(TestLog4.java:10)</code></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">log4j</span>:configuration <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//LOGGER&quot;</span></span><br><span class="hljs-meta">        <span class="hljs-meta-string">&quot;http://org/apache/log4j/xml/log4j.dtd&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">log4j:configuration</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--org.apache.log4j.ConsoleAppender输出到控制台--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myConsole&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.ConsoleAppender&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--输出格式--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">layout</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.PatternLayout&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ConversionPattern&quot;</span></span><br><span class="hljs-tag">                   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%-d&#123;yyyy-MM-dd HH:mm:ss,SSS&#125;[%c]-[%p]%m%n&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">layout</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 输出到文件 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myFile&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.RollingFileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;File&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;F:/log/hello.log&quot;</span>/&gt;</span>        <span class="hljs-comment">&lt;!-- 文件位置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Append&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span>        <span class="hljs-comment">&lt;!-- 向文件内追加内容 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;MaxFileSize&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1kb&quot;</span>/&gt;</span>    <span class="hljs-comment">&lt;!-- 文件最大字节数 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;MaxBackupIndex&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2&quot;</span>/&gt;</span>   <span class="hljs-comment">&lt;!-- 新文件数量 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">layout</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.PatternLayout&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ConversionPattern&quot;</span></span><br><span class="hljs-tag">                   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%-d&#123;yyyy-MM-dd HH:mm:ss,SSS&#125;[%c]-[%p]%m%n&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">layout</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 输出到文件 每天新建一个日志文件 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myFile1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.DailyRollingFileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;File&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;F:/log/day.log&quot;</span>/&gt;</span>        <span class="hljs-comment">&lt;!-- 文件位置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Append&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span>        <span class="hljs-comment">&lt;!-- 向文件内追加内容 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">layout</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.apache.log4j.PatternLayout&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ConversionPattern&quot;</span></span><br><span class="hljs-tag">                   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%-d&#123;yyyy-MM-dd HH:mm:ss,SSS&#125;[%c]-[%p]%m%n&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">layout</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--根logger的设置--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--优先级设置，all &lt; trace &lt; debug &lt; info &lt; warn &lt; error &lt; fatal &lt; off --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">priority</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;all&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;myConsole&quot;</span>/&gt;</span>     <span class="hljs-comment">&lt;!-- 引用追加器 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;myFile&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;myFile1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">log4j:configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="三-解决方案2"><a class="markdownIt-Anchor" href="#三-解决方案2"></a> 三、解决方案2</h2>
+<h3 id="31-logbackslf4j"><a class="markdownIt-Anchor" href="#31-logbackslf4j"></a> 3.1 Logback+SLF4j</h3>
+<h3 id="311-导入依赖"><a class="markdownIt-Anchor" href="#311-导入依赖"></a> 3.1.1 导入依赖</h3>
+<blockquote>
+<p>在项目中导入依赖</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- logback依赖，还会传递slf4j和logback-core--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>ch.qos.logback<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>logback-classic<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="321-基本使用"><a class="markdownIt-Anchor" href="#321-基本使用"></a> 3.2.1 基本使用</h3>
+<blockquote>
+<p>Logback+SLF4j基本API</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.test;<br><br><span class="hljs-keyword">import</span> org.junit.Test;<br><span class="hljs-keyword">import</span> org.slf4j.Logger;<br><span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogTest</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Logger log = LoggerFactory.getLogger(LogTest.class);<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;<br>        log.trace(<span class="hljs-string">&quot;hello trace&quot;</span>);<br>        log.debug(<span class="hljs-string">&quot;hello debug&quot;</span>);<br>        log.info(<span class="hljs-string">&quot;hello info&quot;</span>);<br>        log.warn(<span class="hljs-string">&quot;hello warn&quot;</span>);<br>        log.error(<span class="hljs-string">&quot;hello error&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="313-配置信息"><a class="markdownIt-Anchor" href="#313-配置信息"></a> 3.1.3 配置信息</h3>
+<blockquote>
+<p>创建<code>logback.xml</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%d{yyyy-MM-dd HH:mm:ss.SSS}</td>
+<td>日期</td>
+</tr>
+<tr>
+<td>%5p</td>
+<td>日志级别,5位字符长度显示,如果内容占不满5位则内容右对齐并在左侧补空格</td>
+</tr>
+<tr>
+<td>%-5p</td>
+<td>5位字符长度显示日志级别,如果内容占不满5位则内容左对齐并在右侧补空格-代表左对齐</td>
+</tr>
+<tr>
+<td>%logger</td>
+<td>日志所在包和类</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>日志所在方法名</td>
+</tr>
+<tr>
+<td>%L</td>
+<td>日志所在代码行</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>日志正文</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>换行</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">        scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true</span><br><span class="hljs-comment">        scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。</span><br><span class="hljs-comment">        默认的时间间隔为1分钟。</span><br><span class="hljs-comment">        de<span class="hljs-doctag">bug:</span>当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。</span><br><span class="hljs-comment">--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span> <span class="hljs-attr">scan</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">scanPeriod</span>=<span class="hljs-string">&quot;60 seconds&quot;</span> <span class="hljs-attr">debug</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;CONSOLE_LOG_PATTERN&quot;</span></span><br><span class="hljs-tag">              <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; |-[%-5p] in %logger.%M[line-%L] -%m%n&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;log.path&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;F:/log&quot;</span>/&gt;</span><br><br>    <span class="hljs-comment">&lt;!--输出到控制台--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- Threshold=即最低日志级别，此appender输出大于等于对应级别的日志</span><br><span class="hljs-comment">            (当然还要满足root中定义的最低级别）</span><br><span class="hljs-comment">        --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">filter</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">level</span>&gt;</span>debug<span class="hljs-tag">&lt;/<span class="hljs-name">level</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 日志格式（引用变量）--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">Pattern</span>&gt;</span>$&#123;CONSOLE_LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">Pattern</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 设置字符集 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">charset</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">charset</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 追加到文件 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.FileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>$&#123;log.path&#125;/hello2.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">Pattern</span>&gt;</span><br>                $&#123;CONSOLE_LOG_PATTERN&#125;<br>            <span class="hljs-tag">&lt;/<span class="hljs-name">Pattern</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--滚动追加到文件中--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;file1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>$&#123;log.path&#125;/hello.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 日志格式（引用变量）--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">Pattern</span>&gt;</span>$&#123;CONSOLE_LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">Pattern</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 设置字符集 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">charset</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">charset</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--日志记录器的滚动策略，按日期，按大小记录</span><br><span class="hljs-comment">            文件超过最大尺寸后，会新建文件，然后新的日志文件中继续写入</span><br><span class="hljs-comment">            如果日期变更，也会新建文件，然后在新的日志文件中写入当天日志</span><br><span class="hljs-comment">        --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!--新建文件后，原日志改名为如下 %i=文件序号，从0开始--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>$&#123;log.path&#125;/hello-%d&#123;yyyy-MM-dd&#125;.%i.log<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 每个日志文件的最大值 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">maxFileSize</span>&gt;</span>8kb<span class="hljs-tag">&lt;/<span class="hljs-name">maxFileSize</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 日志文件保留天数， 1—则只保留昨天的归档日志文件，不设置则保留所有日志--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">maxHistory</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">maxHistory</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">root</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;trace&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;file&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;file1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/e519d226.html">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring framework 5</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/684e1dc6.html">
+                        <span class="hidden-mobile">Quartz</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('twikoo', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/twikoo@0.6.0/dist/twikoo.all.min.js', function () {
+        twikoo.init({ envId: 'twikoo-2g1h50xa57a8462d' })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备20006573号-2
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

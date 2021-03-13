@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Linux，全称GNU/Linux，是一种免费使用和自由传播的类UNIX操作系统">
+  
+  <meta name="author" content="Techoc&#39;s">
+  <meta name="keywords" content="">
+  
+  <title>Linux基础 - Techoc&#39;s</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"techoc.xyz","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Techoc's</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.yuque.com/techoc">
+                <i class="iconfont icon-book-fill"></i>
+                知识库
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.techoc.workers.dev/">
+                    <i class="iconfont icon-link-fill"></i>
+                    Github加速
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://img.rruu.net/">
+                    <i class="iconfont icon-link-fill"></i>
+                    图床
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://img.rruu.net/image/5fedecc5d3000') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux基础">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Techoc's
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-15 16:51" pubdate>
+        2021年1月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux基础</h1>
+            
+            <div class="markdown-body">
+              <p>Linux，全称GNU/Linux，是一种免费使用和自由传播的类UNIX操作系统</p>
+<a id="more"></a>
+<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
+<blockquote>
+<p>Linux操作系统现在已经成为后台开发人员必备的技能，并且后期学习的各种知识都会涉及到Linux操作系统。</p>
+</blockquote>
+<h2 id="二-linux的目录结构"><a class="markdownIt-Anchor" href="#二-linux的目录结构"></a> 二、Linux的目录结构</h2>
+<blockquote>
+<p>Windows的目录结构是带有盘符的。D: E: C: ,而Linux中是没有盘符的<br />
+在终端中输入<code>ls /</code>查看Linux的顶级目录。</p>
+</blockquote>
+<p><img src="https://img.rruu.net/image/600158308e8d5" srcset="/img/loading.gif" alt="顶级目录" /></p>
+<blockquote>
+<p>Linux的常用目录</p>
+</blockquote>
+<p><img src="https://img.rruu.net/image/60015830927b7" srcset="/img/loading.gif" alt="常用目录" /></p>
+<blockquote>
+<ul>
+<li>root:该目录为系统管理员HOME目录</li>
+<li>bin:这个目录下放着经常使用的命令</li>
+<li>boot:这里存放的是启动Linux时的一些核心文件</li>
+<li>etc:存放系统管理所需要的配置文件和子目录</li>
+<li>home:普通用户的HOME目录</li>
+<li>usr:默认安装软件的目录，类似Windows中的Program Files目录</li>
+<li>opt:是主机额外安装软件拜访的目录</li>
+</ul>
+</blockquote>
+<h2 id="三-linux基本命令"><a class="markdownIt-Anchor" href="#三-linux基本命令"></a> 三、Linux基本命令</h2>
+<blockquote>
+<p>Linux中命令的基本格式：命令【选项】【参数】</p>
+<p>需要注意，个别命令是不遵循这个格式</p>
+<p>当命令中有多个选项时，可以写在一起的，并且选项也是由简写方式的命令 -选项A选项B</p>
+<p>Linux的基本操作命令，不遵循上述格式，但是后期会经常使用…</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.我是谁</span><br>who am i<br><br><span class="hljs-comment">#2.我在哪</span><br><span class="hljs-built_in">pwd</span><br><br><span class="hljs-comment">#3.查看ip地址</span><br>ip a | ip address<br><br><span class="hljs-comment">#4.清屏</span><br>clear<br><br><span class="hljs-comment">#5.ping域名|ip</span><br>ping 地址<br><br><span class="hljs-comment">#6.强制停止</span><br>Ctrl+C<br></code></pre></td></tr></table></figure>
+<h2 id="四-linux目录命令重点"><a class="markdownIt-Anchor" href="#四-linux目录命令重点"></a> 四、Linux目录命令【重点】</h2>
+<h3 id="41-列出目录"><a class="markdownIt-Anchor" href="#41-列出目录"></a> 4.1 列出目录</h3>
+<blockquote>
+<p>查看指定目录下的内容，默认查看当前目录下内容</p>
+<p>Linux中的隐藏文件是以<code>.</code>开头的，当前目录使用<code>.</code>表示，上一级目录使用<code>..</code>表示</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">ls [-ald] [目录名]<br><span class="hljs-comment"># 目录名不填写，默认为当前目录。</span><br><span class="hljs-comment"># -a:列出的全部的文件，包括隐藏文件</span><br><span class="hljs-comment"># -1:列举出全部的信息</span><br><span class="hljs-comment"># -d:仅查看目录本身</span><br></code></pre></td></tr></table></figure>
+<h3 id="42-切换目录"><a class="markdownIt-Anchor" href="#42-切换目录"></a> 4.2 切换目录</h3>
+<blockquote>
+<p>实现目录间切换，使用绝对路径、相对路径、特殊符号</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> 具体路径|特殊符号<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>特殊符号</th>
+<th>表达的路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>当前目录</td>
+</tr>
+<tr>
+<td>…</td>
+<td>上一级目录</td>
+</tr>
+<tr>
+<td>/</td>
+<td>根目录</td>
+</tr>
+<tr>
+<td>~</td>
+<td>当前登录用户的HOME目录</td>
+</tr>
+<tr>
+<td>-</td>
+<td>返回</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-创建目录"><a class="markdownIt-Anchor" href="#43-创建目录"></a> 4.3 创建目录</h3>
+<blockquote>
+<p>创建目录，以及创建多级目录方式</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">mkdir [-p] 目录名<br><span class="hljs-comment"># -p:代表创建多级目录时，使用</span><br></code></pre></td></tr></table></figure>
+<h3 id="44-删除目录"><a class="markdownIt-Anchor" href="#44-删除目录"></a> 4.4 删除目录</h3>
+<blockquote>
+<p>删除非空目录或包含内容的目录</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 只能删除空目录</span><br>rmdir 目录名<br><br><span class="hljs-comment"># 删除非空目录</span><br>rm [-rf] 目录名<br><span class="hljs-comment"># -r:代表递归删除目录下的全部内容</span><br><span class="hljs-comment"># -f:不询问，直接删除</span><br></code></pre></td></tr></table></figure>
+<h3 id="45-复制目录"><a class="markdownIt-Anchor" href="#45-复制目录"></a> 4.5 复制目录</h3>
+<blockquote>
+<p>复制目录下的全部内容</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">cp-r 来源目录 目标目录<br><span class="hljs-comment"># -r:递归复制全部内容，必填项</span><br></code></pre></td></tr></table></figure>
+<h3 id="46-移动-重命名目录和文件"><a class="markdownIt-Anchor" href="#46-移动-重命名目录和文件"></a> 4.6 移动、重命名目录和文件</h3>
+<blockquote>
+<p>移动、重命名目录和文件，会根据第二个参数指定具体操作逻辑</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">mv 目录名 新目录名|路径<br><span class="hljs-comment"># 如果第二个参数指定的路径不存在，就是重命名，如果第二个参数的路径存在，就是移动</span><br></code></pre></td></tr></table></figure>
+<h2 id="五-linux的文件命令重点"><a class="markdownIt-Anchor" href="#五-linux的文件命令重点"></a> 五、Linux的文件命令【重点】</h2>
+<h3 id="51-创建文件"><a class="markdownIt-Anchor" href="#51-创建文件"></a> 5.1 创建文件</h3>
+<blockquote>
+<p>创建空文件</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">touch 文件名1 文件名2 ...<br></code></pre></td></tr></table></figure>
+<h3 id="52-编辑文件"><a class="markdownIt-Anchor" href="#52-编辑文件"></a> 5.2 编辑文件</h3>
+<blockquote>
+<p>编辑文件，后期最常的命令之一</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">vi文件名		<span class="hljs-comment"># 查看文件。（查看模式）</span><br>i | a | o	<span class="hljs-comment"># 进入编辑模式。（编辑模式）</span><br>			<span class="hljs-comment"># i:在当前光标处，进入编辑模式。</span><br>			<span class="hljs-comment"># a:在当前光标后一格，进入编辑模式</span><br>			<span class="hljs-comment"># 0:在当前光标下一行，进入编辑模式。</span><br>esc			<span class="hljs-comment"># 退出编辑模式，回到查看模式。</span><br>:			<span class="hljs-comment"># 从查看模式进入到底行命令模式。（底行命名模式）</span><br>                <span class="hljs-comment"># 在底行命令模式下，输入wq:保存并退出。输入q!:不保存并退出</span><br>                <span class="hljs-comment"># 在查看模式下，按ZZ,可以快速保存并退出。</span><br></code></pre></td></tr></table></figure>
+<h3 id="53-vi打开文件时其他操作"><a class="markdownIt-Anchor" href="#53-vi打开文件时其他操作"></a> 5.3 vi打开文件时，其他操作</h3>
+<blockquote>
+<p>编辑文件时，常用的快捷键，方便操作</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 在vi文件时，在底行命令模式下可以输入以下常用内容</span><br><br><span class="hljs-comment"># 行号操作</span><br><span class="hljs-built_in">set</span> nu		<span class="hljs-comment"># 查看文件的行号</span><br>to rownum	<span class="hljs-comment"># 快速的跳转到指定行</span><br><span class="hljs-built_in">set</span> nonu	<span class="hljs-comment"># 取消行号</span><br><br><span class="hljs-comment"># 搜索操作</span><br>/word		<span class="hljs-comment"># 类似Windows的Ctrl+F搜索文件中的具体内容所在位置，查看下一个可以输入字母n</span><br><br><span class="hljs-comment"># 快速定位</span><br>G			<span class="hljs-comment"># 快速跳转到最后一行</span><br>gg			<span class="hljs-comment"># 快速跳转到第一行</span><br></code></pre></td></tr></table></figure>
+<h3 id="54-查看文件"><a class="markdownIt-Anchor" href="#54-查看文件"></a> 5.4 查看文件</h3>
+<blockquote>
+<p>根据不同的业务，可以选择不同的查看方式</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看文件，直接展示到最后一行</span><br>cat 文件名<br><br><span class="hljs-comment"># 从第一行开始查看文件内容，展示全部</span><br>tac 文件名<br><br><span class="hljs-comment"># 从最后一行开始展示</span><br>nl 文件名<br><br><span class="hljs-comment"># 显示文件的用时，展示行号</span><br>more 文件名<br><span class="hljs-comment"># 查看大文件时，可以一页一页的向下翻</span><br><span class="hljs-comment"># 按space向下翻页，退出时按q</span><br><br>less 文件名<br><span class="hljs-comment"># 查看大文件时，可以任意的向上或者向下翻</span><br><span class="hljs-comment"># 向上或向下翻页PageUp和PageDown,一行一行查看，按光标的↑↓</span><br><br><span class="hljs-comment"># 只查看前几行</span><br>head 文件名<br><br><span class="hljs-comment"># 只查看后几行</span><br>tail 文件名<br><span class="hljs-comment"># tail -f 日志 监控日志</span><br></code></pre></td></tr></table></figure>
+<h3 id="55-复制文件"><a class="markdownIt-Anchor" href="#55-复制文件"></a> 5.5 复制文件</h3>
+<blockquote>
+<p>复制文件到指定目录下</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">cp 文件名 目录<br></code></pre></td></tr></table></figure>
+<h3 id="56-删除文件"><a class="markdownIt-Anchor" href="#56-删除文件"></a> 5.6 删除文件</h3>
+<blockquote>
+<p>删除文件方式</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">rm [-f] 文件名<br><span class="hljs-comment"># -f: 是否询问</span><br></code></pre></td></tr></table></figure>
+<h2 id="六-linux的压缩包命令重点"><a class="markdownIt-Anchor" href="#六-linux的压缩包命令重点"></a> 六、Linux的压缩包命令【重点】</h2>
+<h3 id="61-针对tar命令"><a class="markdownIt-Anchor" href="#61-针对tar命令"></a> 6.1 针对tar命令</h3>
+<blockquote>
+<p>Linux中常用的压缩包，大多是.tar,.tar.gz,.tgz的</p>
+</blockquote>
+<h4 id="611-解压压缩包"><a class="markdownIt-Anchor" href="#611-解压压缩包"></a> 6.1.1 解压压缩包</h4>
+<blockquote>
+<p>针对压缩包后缀的情况，采用不同的参数，否则可能会损失文件</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar[-zxvf] 压缩包名称 [-C路径]<br><span class="hljs-comment"># -z:代表压缩包后级是.gz的</span><br><span class="hljs-comment"># -x:代表解压</span><br><span class="hljs-comment"># -v:解压时，打印详细信息</span><br><span class="hljs-comment"># -f:-f选项必须放在所有选项的最后，代表指定文件名称</span><br><span class="hljs-comment"># -C路径：代表将压缩包内容解压到指定路径</span><br></code></pre></td></tr></table></figure>
+<h4 id="612-打包成压缩包"><a class="markdownIt-Anchor" href="#612-打包成压缩包"></a> 6.1.2 打包成压缩包</h4>
+<blockquote>
+<p>可以将多个文件以及目录打包成压缩包，根据选择的参数指定压缩包名</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar[-zcvf] 压缩包名称 文件1 文件2 目录1 目录2 ...<br><span class="hljs-comment"># -c:代表打包</span><br><span class="hljs-comment"># 其他参数同上</span><br></code></pre></td></tr></table></figure>
+<h3 id="62-针对zip类型压缩包"><a class="markdownIt-Anchor" href="#62-针对zip类型压缩包"></a> 6.2 针对zip类型压缩包</h3>
+<blockquote>
+<p>Linux不仅仅针对tar压缩包，也支持zip，rar这种Windows下的压缩包。</p>
+<p>不过需要安装软件针对对各种类型压缩包的操作</p>
+</blockquote>
+<h4 id="621-安装软件"><a class="markdownIt-Anchor" href="#621-安装软件"></a> 6.2.1 安装软件</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum -y install zip <span class="hljs-comment"># 打包程序</span><br>yum -y install unzip <span class="hljs-comment"># 解压程序</span><br></code></pre></td></tr></table></figure>
+<h2 id="七-用户和用户组的操作"><a class="markdownIt-Anchor" href="#七-用户和用户组的操作"></a> 七、用户和用户组的操作</h2>
+<h3 id="71-用户的常用操作命令"><a class="markdownIt-Anchor" href="#71-用户的常用操作命令"></a> 7.1 用户的常用操作命令</h3>
+<blockquote>
+<p>Linux是一个多用户的操作系统，任何一个用户想要操作Linux操作系统，必须向系统管理员申请一个账户</p>
+<p>才可以，并且以这个账号的身份去操作Linux。</p>
+<p>用户的账号一方面可以帮助系统管理员追踪当前用户的操作。另一方面可以控制当前用户对系统资源访问。</p>
+</blockquote>
+<h3 id="711-用户的创建"><a class="markdownIt-Anchor" href="#711-用户的创建"></a> 7.1.1 用户的创建</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">useradd [-cgd] [选项指定的具体内容] 用户名<br><br><span class="hljs-comment"># -c:代表comment,给用户添加一段注释</span><br><span class="hljs-comment"># -g:代表group,可以修改用户的所在组</span><br><span class="hljs-comment"># -d:代表指定用户的HOME目录</span><br></code></pre></td></tr></table></figure>
+<h3 id="712-设置用户密码"><a class="markdownIt-Anchor" href="#712-设置用户密码"></a> 7.1.2 设置用户密码</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">passwd 用户名<br></code></pre></td></tr></table></figure>
+<h3 id="713-切换用户"><a class="markdownIt-Anchor" href="#713-切换用户"></a> 7.1.3 切换用户</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">su 用户名<br><br><span class="hljs-comment"># [root@localhost ~]# -&gt; root用户在本地登录，并且当前在~目录下，#代表是超级管理员</span><br><span class="hljs-comment"># [qf@localhost ~]$ -&gt; qf用户在本地登录，并且当前在~目录下，$代表是普通用户</span><br></code></pre></td></tr></table></figure>
+<h3 id="714-删除用户"><a class="markdownIt-Anchor" href="#714-删除用户"></a> 7.1.4 删除用户</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">userdel [-r] 用户名<br><br><span class="hljs-comment"># -r: 代表删除用户的同时,删除该用户的HOME目录</span><br></code></pre></td></tr></table></figure>
+<h3 id="715-修改用户"><a class="markdownIt-Anchor" href="#715-修改用户"></a> 7.1.5 修改用户</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">usermod [-cgd] [选项指定的具体内容] 用户名<br><br><span class="hljs-comment"># -c:代表comment,给用户添加一段注释</span><br><span class="hljs-comment"># -g:代表group,可以修改用户的所在组</span><br><span class="hljs-comment"># -d:代表指定用户的HOME目录</span><br></code></pre></td></tr></table></figure>
+<h3 id="72-用户组的操作"><a class="markdownIt-Anchor" href="#72-用户组的操作"></a> 7.2 用户组的操作</h3>
+<blockquote>
+<p>用户的身份除了用户本身，还会分配到指定的用户组，可以通过用户组对设置一些文件的操作权限</p>
+</blockquote>
+<h4 id="721-创建用户组"><a class="markdownIt-Anchor" href="#721-创建用户组"></a> 7.2.1 创建用户组</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">groupadd 用户组名<br></code></pre></td></tr></table></figure>
+<h4 id="722-修改用户组"><a class="markdownIt-Anchor" href="#722-修改用户组"></a> 7.2.2 修改用户组</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">groupmod [-n] [选项指定的具体内容] 用户组名<br></code></pre></td></tr></table></figure>
+<h4 id="723-删除用户组"><a class="markdownIt-Anchor" href="#723-删除用户组"></a> 7.2.3 删除用户组</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">groupdel 用户组名<br><span class="hljs-comment"># 只能删除不存在的用户组名称</span><br></code></pre></td></tr></table></figure>
+<h2 id="八-文件权限的修改重点"><a class="markdownIt-Anchor" href="#八-文件权限的修改重点"></a> 八、文件权限的修改【重点】</h2>
+<blockquote>
+<p>首先我们要清楚Linux文件的权限信息</p>
+<p>在Linux中输入<code>ls -l</code>或者<code>ll</code>查看文件和目录的详细信息</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://img.rruu.net/image/60015830a5272" srcset="/img/loading.gif" alt="文件详情" /></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>实例中，a目录的第一个属性用“d”标识这个a是一个目录。</p>
+<p>anaconda-ks.cfg第一个属性用“-&quot;标识他是一个文件。</p>
+<p>在Linux文件详情的后面属性需要分为三组查看</p>
+<ul>
+<li>
+<p>rwx:代表文件拥有者的权限</p>
+</li>
+<li>
+<p>rwx:代表文件所属组用户的权限</p>
+</li>
+<li>
+<p>rwx:代表其他用户对当前文件的操作权限</p>
+<ul>
+<li>
+<p>r:代表read,读的权限</p>
+</li>
+<li>
+<p>w:代表write,写的权限</p>
+</li>
+<li>
+<p>x:代表execute,代表执行权限</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>其余信息</p>
+<ul>
+<li>后续的第一个root:代表当前文件的拥有者</li>
+<li>后续的第二个root:代表当前文件的所属组</li>
+<li>后续分别为：文件的大小和最后修改时间等信息</li>
+</ul>
+</blockquote>
+<h3 id="81-对文件权限的修改"><a class="markdownIt-Anchor" href="#81-对文件权限的修改"></a> 8.1 对文件权限的修改</h3>
+<blockquote>
+<p>使用chmod对文件的权限进行修改，一种使用数字，一种使用符号…</p>
+<ul>
+<li>数字方式方便操作，不过要修改整体权限信息</li>
+<li>符号方式更细粒度华，不过操作麻烦</li>
+</ul>
+</blockquote>
+<h4 id="811-数字方式"><a class="markdownIt-Anchor" href="#811-数字方式"></a> 8.1.1 数字方式</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">chmod [-R] 777 文件|目录<br><br><span class="hljs-comment"># rwx在这三个权限中r:4,w:2,x:1</span><br><span class="hljs-comment"># -R:当修改一个目录权限时，可以添加-R,将目录下的全部内容，都修改权限。</span><br></code></pre></td></tr></table></figure>
+<h4 id="812-符号方式"><a class="markdownIt-Anchor" href="#812-符号方式"></a> 8.1.2 符号方式</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">chmod [-R] a=rw 文件|目录<br><br><span class="hljs-comment"># user : u , group : g , other : o , all : a</span><br><span class="hljs-comment"># read: r, write:w, execute:x</span><br><span class="hljs-comment"># 赋予权限的方式，添加：+,减掉：一，设定：=</span><br><span class="hljs-comment"># -R:当修改一个目录权限时，可以添加-R,将目录下的全部内容，都修改权限。</span><br></code></pre></td></tr></table></figure>
+<h3 id="82-文件拥有者及所属组修改"><a class="markdownIt-Anchor" href="#82-文件拥有者及所属组修改"></a> 8.2 文件拥有者及所属组修改</h3>
+<blockquote>
+<p>chown可以直接修改拥有者和所属组，chgrp只能修改所属组……</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 修改文件的拥有者和所属组</span><br>chown [-R] 拥有者：所属组 文件|目录<br><br><span class="hljs-comment"># 修改文件的拥有者</span><br>chown [-R] 拥有者 文件|目录<br><br><span class="hljs-comment"># 修改文件的所属组</span><br>chgrp [-R] 所属组 文件|目录<br></code></pre></td></tr></table></figure>
+<h2 id="九-linux的其他操作命令"><a class="markdownIt-Anchor" href="#九-linux的其他操作命令"></a> 九、Linux的其他操作命令</h2>
+<h3 id="91-进程的操作"><a class="markdownIt-Anchor" href="#91-进程的操作"></a> 9.1 进程的操作</h3>
+<blockquote>
+<p>需要用到类似Windows的结束进程时，在Linux下需要使用如下命令</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">ps -ef<br><span class="hljs-comment">#查看全部正在运行的进程</span><br><br>ps- ef|grep 搜索的内容<br><br><span class="hljs-comment">#杀死进程</span><br>kill-9pid<br></code></pre></td></tr></table></figure>
+<h3 id="92-服务的操作"><a class="markdownIt-Anchor" href="#92-服务的操作"></a> 9.2 服务的操作</h3>
+<blockquote>
+<p>和Windows下的服务操作一致，只需使用如下命令，默认为centos7版本</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#针对服务的启动，停止，重启，开机自动启动，禁止开机自动启动，查看服务状态。</span><br>systemctl start|stop|restart|<span class="hljs-built_in">enable</span>|<span class="hljs-built_in">disable</span>|status 服务名称<br></code></pre></td></tr></table></figure>
+<h3 id="93-端口号查看"><a class="markdownIt-Anchor" href="#93-端口号查看"></a> 9.3 端口号查看</h3>
+<blockquote>
+<p>如发现端口号被占用，可以使用如下方式查找pid,并结束进程</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#想使用指定的命令需要事先下载netstat</span><br>yum-y install net-tools<br><span class="hljs-comment">#查看端口号占用情况</span><br>netstat -naop|grep 端口号<br></code></pre></td></tr></table></figure>
+<h3 id="94-访问地址"><a class="markdownIt-Anchor" href="#94-访问地址"></a> 9.4 访问地址</h3>
+<blockquote>
+<p>类似浏览器访问路径，无法图形化显示，一般用于测试</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl 访问地址<br></code></pre></td></tr></table></figure>
+<h3 id="95-查找文件"><a class="markdownIt-Anchor" href="#95-查找文件"></a> 9.5 查找文件</h3>
+<blockquote>
+<p>在Linux中查找指定文件，参数较多，如下为根据文件名称查询</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">find 路径 -<span class="hljs-built_in">type</span> f | grep profile<br></code></pre></td></tr></table></figure>
+<h2 id="十-linux下安装软件"><a class="markdownIt-Anchor" href="#十-linux下安装软件"></a> 十、Linux下安装软件</h2>
+<h3 id="101-安装jdk"><a class="markdownIt-Anchor" href="#101-安装jdk"></a> 10.1 安装JDK</h3>
+<blockquote>
+<p>在Linux下安装JDK,并配置JAVA_HOME环境变量</p>
+</blockquote>
+<h4 id="1011-下载jdk压缩包"><a class="markdownIt-Anchor" href="#1011-下载jdk压缩包"></a> 10.1.1 下载JDK压缩包</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html</a></p>
+</blockquote>
+<h4 id="1012-上传并解压jdk压缩包"><a class="markdownIt-Anchor" href="#1012-上传并解压jdk压缩包"></a> 10.1.2 上传并解压JDK压缩包</h4>
+<blockquote>
+<p>后期大多软件都安装在/usr/local下，直接使用tar解压</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar-zxvf jdk-8u241-linux-x64.tar.gz -C /usr/<span class="hljs-built_in">local</span><br></code></pre></td></tr></table></figure>
+<h4 id="1013-修改jdk目录名"><a class="markdownIt-Anchor" href="#1013-修改jdk目录名"></a> 10.1.3 修改JDK目录名</h4>
+<blockquote>
+<p>为了方便配置环境变量，修改一下目录名称</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span><br>mv jdk1.8.0_241 jdk<br></code></pre></td></tr></table></figure>
+<h4 id="1014-修改环境变量"><a class="markdownIt-Anchor" href="#1014-修改环境变量"></a> 10.1.4 修改环境变量</h4>
+<blockquote>
+<p>Linux提供了两种环境变量的文件</p>
+<ul>
+<li>第一个是用户级别的环境变量，存放在：~/bashrc</li>
+<li>第二个是系统级别的环境变量，存放在：/etc/profile</li>
+</ul>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 在环境变量文件中，添加如下内容</span><br><span class="hljs-built_in">export</span> JAVA_HOME=/usr/<span class="hljs-built_in">local</span>/jdk<br><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$JAVA_HOME</span>/bin:<span class="hljs-variable">$PATH</span><br><br><span class="hljs-comment"># 重新加载环境变量文件</span><br><span class="hljs-built_in">source</span> /etc/profile<br><br><span class="hljs-comment"># 最终测试</span><br>java -version<br></code></pre></td></tr></table></figure>
+<h3 id="102-安装mysql"><a class="markdownIt-Anchor" href="#102-安装mysql"></a> 10.2 安装MySQL</h3>
+<h4 id="1021安装mysql的yum存储库"><a class="markdownIt-Anchor" href="#1021安装mysql的yum存储库"></a> 10.2.1安装MySQL的YUM存储库</h4>
+<blockquote>
+<p>使用wget下载即可，不过需要先下载wget,再通过wget下载rpm包</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum -y install wget<br><span class="hljs-comment">#通过wget下载MySQL存储库</span><br>wget https://repo.mysql.com//mysql80-community-release-el7-3.noarch.rpm<br></code></pre></td></tr></table></figure>
+<h4 id="1022安装下载好的rpm包"><a class="markdownIt-Anchor" href="#1022安装下载好的rpm包"></a> 10.2.2安装下载好的rpm包</h4>
+<blockquote>
+<p>使用rpm包的命令直接安装</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 安装rpm包</span><br>rpm -Uvh mysq180-community-release-e17-3.noarch.rpm<br><br><span class="hljs-comment"># 查看rpm包</span><br>rpm -qa | grep 内容<br><br><span class="hljs-comment"># 卸载rpm(不需要指定当前命令。。。）</span><br>rpm -e --nodeps rpm名称<br></code></pre></td></tr></table></figure>
+<h4 id="1023选择发行版本"><a class="markdownIt-Anchor" href="#1023选择发行版本"></a> 10.2.3选择发行版本</h4>
+<blockquote>
+<p>由于默认安装8.0版本的MySQL,我们需要修改为5.7版本</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看一下默认选择的发行版本</span><br>yum repolist all | grep mysql<br><br><span class="hljs-comment"># 通过编辑/etc/yum.repos.d/mysql-community.repo文件，去修改发行版本</span><br><span class="hljs-comment"># 将80的enabled更改为0,将67的enabled更改为1,保存即可，再次通过yum repolist all | grep mysql查看</span><br><span class="hljs-comment"># 效果如下</span><br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">MySQ安装版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://img.rruu.net/image/600158309bb65" srcset="/img/loading.gif" alt="MySQ安装版本" /></td>
+</tr>
+</tbody>
+</table>
+<h4 id="1024安装mysql社区版服务"><a class="markdownIt-Anchor" href="#1024安装mysql社区版服务"></a> 10.2.4安装MySQL社区版服务</h4>
+<blockquote>
+<p>开始安装，这一步需要下载一段时间</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum -y install mysql-community-server<br></code></pre></td></tr></table></figure>
+<h4 id="1025启动mysql服务并连接"><a class="markdownIt-Anchor" href="#1025启动mysql服务并连接"></a> 10.2.5启动MySQL服务，并连接</h4>
+<blockquote>
+<p>安装成功后，手动启动，并使用日志中的密码登陆，而且第一个操作必须是修改密码，才可后续正常操作</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 启动MySQL服务</span><br>systemctl start mysqld.service<br><br><span class="hljs-comment"># 查看初始化密码</span><br>grep <span class="hljs-string">&#x27;temporary password&#x27;</span> /var/<span class="hljs-built_in">log</span>/mysqld.log<br><br><span class="hljs-comment"># 连接MySQL服务</span><br>mysql -u root -p<br>Enter password:随机密码<br><br><span class="hljs-comment"># 修改密码</span><br>mysql&gt; ALTER USER<span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="hljs-string">&#x27;POssword&#x27;</span>;<br><br><span class="hljs-comment"># 要求密码，必须携带大写字母，小写字母，数字，特殊符号</span><br></code></pre></td></tr></table></figure>
+<h4 id="1026开启远程连接"><a class="markdownIt-Anchor" href="#1026开启远程连接"></a> 10.2.6开启远程连接</h4>
+<blockquote>
+<p>默认MySQL禁止远程链接，需要单独创建一个用户开启远程链接，这样就可以在windows下使用图形化工具连接</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">mysql&gt; GRANT ALL PRIVILEGES ON*.* TO <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="hljs-string">&#x27;P0ssword&#x27;</span> WITH GRANT OPTION;<br>mysql&gt; FLUSH PRIVILEGES;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>查看防火墙规则，看ports是否开放了3306端口</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">firewall-cmd --list-all<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>开放端口</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">firewall-cmd --permanent --add-port=3306/tcp<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>重启防火墙(修改配置后要重启防火墙)</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">firewall-cmd --reload<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1d9fbb6a.html">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1bff3c65.html">
+                        <span class="hidden-mobile">MyBatis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('twikoo', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/twikoo@0.6.0/dist/twikoo.all.min.js', function () {
+        twikoo.init({ envId: 'twikoo-2g1h50xa57a8462d' })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备20006573号-2
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,868 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Quartz 是一个完全由 Java 编写的开源作业调度框架，为在 Java 应用程序中进行作业调度提供了简单却强大的机制。
+Quartz 可以与 J2EE 与 J2SE 应用程序相结合也可以单独使用。
+Quartz 允许程序开发人员根据时间的间隔来调度作业。
+Quartz 实现了作业和触发器的多对多的关系，还能把多个作业与不同的触发器关联。">
+  
+  <meta name="author" content="Techoc&#39;s">
+  <meta name="keywords" content="">
+  
+  <title>Quartz - Techoc&#39;s</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"techoc.xyz","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Techoc's</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.yuque.com/techoc">
+                <i class="iconfont icon-book-fill"></i>
+                知识库
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.techoc.workers.dev/">
+                    <i class="iconfont icon-link-fill"></i>
+                    Github加速
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://img.rruu.net/">
+                    <i class="iconfont icon-link-fill"></i>
+                    图床
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://img.rruu.net/image/5fedecc5d3000') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Quartz">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Techoc's
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-31 22:17" pubdate>
+        2020年12月31日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Quartz</h1>
+            
+            <div class="markdown-body">
+              <p>Quartz 是一个完全由 Java 编写的开源作业调度框架，为在 Java 应用程序中进行作业调度提供了简单却强大的机制。<br />
+Quartz 可以与 J2EE 与 J2SE 应用程序相结合也可以单独使用。<br />
+Quartz 允许程序开发人员根据时间的间隔来调度作业。<br />
+Quartz 实现了作业和触发器的多对多的关系，还能把多个作业与不同的触发器关联。</p>
+<a id="more"></a>
+<p><img src="https://img.rruu.net/image/5feddddaa54d3" srcset="/img/loading.gif" alt="" /></p>
+<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
+<h3 id="11-简介"><a class="markdownIt-Anchor" href="#11-简介"></a> 1.1 简介</h3>
+<blockquote>
+<p><strong>Quartz</strong>:<a target="_blank" rel="noopener" href="http://www.quartz-scheduler.org/">http://www.quartz-scheduler.org/</a></p>
+<p>是一个定时任务调度框。比如你遇到这样的问题：</p>
+<ul>
+<li>想在30分钟后，查看订单是否支付，未支付则取消订单</li>
+<li>想在每月29号，信用卡自动还款</li>
+<li>…</li>
+<li>想定时在某个时间，去做某件任务</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Quartz是要做定时任务的调度，设置好触发时间规则，以及相应的任务（Job）即可。</p>
+</blockquote>
+<h2 id="二-quartz使用"><a class="markdownIt-Anchor" href="#二-quartz使用"></a> 二、Quartz使用</h2>
+<h3 id="21-导入依赖"><a class="markdownIt-Anchor" href="#21-导入依赖"></a> 2.1 导入依赖</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.quartz-scheduler<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>quartz<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="22-定义job"><a class="markdownIt-Anchor" href="#22-定义job"></a> 2.2 定义Job</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloJob</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Job</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(JobExecutionContext jobExecutionContext)</span> <span class="hljs-keyword">throws</span> JobExecutionException </span>&#123;<br>        <span class="hljs-comment">//创建工作详情</span><br>        JobDetail jobDetail = jobExecutionContext.getJobDetail();<br><br>        <span class="hljs-comment">//获取工作名称</span><br>        String name = jobDetail.getKey().getName();     <span class="hljs-comment">//任务名</span><br>        String group = jobDetail.getKey().getGroup();   <span class="hljs-comment">//任务group</span><br>        System.out.println(<span class="hljs-string">&quot;job执行，job&quot;</span> + name + <span class="hljs-string">&quot; group:&quot;</span> + group);<br>        System.out.println(<span class="hljs-string">&quot;hello job exec &quot;</span>+<span class="hljs-keyword">new</span> Date());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="23-api测试"><a class="markdownIt-Anchor" href="#23-api测试"></a> 2.3 API测试</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloQuartz</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> SchedulerException </span>&#123;<br>        <span class="hljs-comment">//quartz API</span><br>        <span class="hljs-comment">//1.调度器</span><br>        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();<br><br>        <span class="hljs-comment">//2.触发器</span><br>        SimpleTrigger trigger = TriggerBuilder.newTrigger()<br>            .withIdentity(<span class="hljs-string">&quot;trigger1&quot;</span>, <span class="hljs-string">&quot;group1&quot;</span>)    <span class="hljs-comment">//定义name/group</span><br>            .startNow()     <span class="hljs-comment">//一旦加入scheduler 立即生效</span><br>            .withSchedule(SimpleScheduleBuilder.simpleSchedule()<br>                          .withIntervalInSeconds(<span class="hljs-number">1</span>)   <span class="hljs-comment">//每隔一秒执行一次</span><br>                          .repeatForever())   <span class="hljs-comment">//一直执行，直到结束时间</span><br>            .endAt(<span class="hljs-keyword">new</span> GregorianCalendar(<span class="hljs-number">2020</span>, <span class="hljs-number">12</span>, <span class="hljs-number">25</span>, <span class="hljs-number">19</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>).getTime())<span class="hljs-comment">//设置时间</span><br>            .build();<br><br>        <span class="hljs-comment">//3. JobDetail</span><br>        JobDetail jobDetail = JobBuilder.newJob(HelloJob.class).withIdentity(<span class="hljs-string">&quot;job1&quot;</span>, <span class="hljs-string">&quot;group1&quot;</span>).build();<br><br><br>        <span class="hljs-comment">//4. 将JobDetail和触发器增加到调度器中</span><br>        scheduler.scheduleJob(jobDetail, trigger);<br><br>        <span class="hljs-comment">//5.调度开始</span><br>        scheduler.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="24-配置"><a class="markdownIt-Anchor" href="#24-配置"></a> 2.4 配置</h3>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 名为：quartz.properties,放置在classpath下，如果没有此配置则按默认配置启动</span><br><span class="hljs-comment"># 指定调度器名称，非实现类</span><br><span class="hljs-meta">org.quartz.scheduler.instanceName</span>=<span class="hljs-string">DefaultQuartzScheduler</span><br><span class="hljs-comment"># 指定线程池实现类</span><br><span class="hljs-meta">org.quartz.threadPool.class</span>=<span class="hljs-string">org.quartz.simpl.SimpleThreadPool</span><br><span class="hljs-comment"># 线程池线程数量</span><br><span class="hljs-meta">org.quartz.threadPool.threadCount</span> = <span class="hljs-string">10</span><br><span class="hljs-comment"># 优先级，默认5</span><br><span class="hljs-meta">org.quartz.threadPool.threadPriority</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"># 非持久化job</span><br><span class="hljs-meta">org.quartz.jobStore.class</span> = <span class="hljs-string">org.quartz.simpl.RAMJobStore</span><br></code></pre></td></tr></table></figure>
+<h3 id="25-核心类说明"><a class="markdownIt-Anchor" href="#25-核心类说明"></a> 2.5 核心类说明</h3>
+<blockquote>
+<p>Scheduler:调度器。所有的调度都是由它控制，是Quartz的大脑，所有任务都是由它来管理</p>
+<p>Job：任务，想定时执行的事情（定义业务逻辑）</p>
+<p>JobDetail：基于Job,进一步包装。其中关联一个Job,并为Job指定更详细的属性，比如标识等</p>
+<p>Trigger:触发器。可以指定给某个任务，指定任务的触发机制。</p>
+</blockquote>
+<h2 id="三-trigger"><a class="markdownIt-Anchor" href="#三-trigger"></a> 三、Trigger</h2>
+<h3 id="31-simpletrigger"><a class="markdownIt-Anchor" href="#31-simpletrigger"></a> 3.1 SimpleTrigger</h3>
+<blockquote>
+<p>以一定的时间间隔（单位是毫秒）执行的任务。</p>
+<ul>
+<li>指定起始和截止时间（时间段）</li>
+<li>指定时间间隔、执行次数</li>
+</ul>
+</blockquote>
+<p>示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">SimpleTrigger trigger = TriggerBuilder.newTrigger()<br>    .withIdentity(<span class="hljs-string">&quot;trigger1&quot;</span>, <span class="hljs-string">&quot;group1&quot;</span>)    <span class="hljs-comment">//定义name/group</span><br>    .startNow()     <span class="hljs-comment">//一旦加入scheduler 立即生效</span><br>    .withSchedule(SimpleScheduleBuilder.simpleSchedule()<br>                  .withIntervalInSeconds(<span class="hljs-number">1</span>)   <span class="hljs-comment">//每隔一秒执行一次</span><br>                  .repeatForever())   <span class="hljs-comment">//一直执行，直到结束时间</span><br>    .endAt(<span class="hljs-keyword">new</span> GregorianCalendar(<span class="hljs-number">2020</span>, <span class="hljs-number">12</span>, <span class="hljs-number">25</span>, <span class="hljs-number">19</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>).getTime())  <span class="hljs-comment">//设置时间</span><br>    .build();<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">SimpleTrigger trigger = TriggerBuilder.newTrigger()<br>    .withIdentity(<span class="hljs-string">&quot;trigger1&quot;</span>, <span class="hljs-string">&quot;group1&quot;</span>)    <span class="hljs-comment">//定义name/group</span><br>    .startNow()     <span class="hljs-comment">//一旦加入scheduler 立即生效</span><br>    .withSchedule(SimpleScheduleBuilder.simpleSchedule()<br>                  .withIntervalInSeconds(<span class="hljs-number">1</span>)   <span class="hljs-comment">//每隔一秒执行一次</span><br>                  .withRepeatCount(<span class="hljs-number">3</span>))   <span class="hljs-comment">//执行次数不超过三次</span><br>    .endAt(<span class="hljs-keyword">new</span> GregorianCalendar(<span class="hljs-number">2020</span>, <span class="hljs-number">12</span>, <span class="hljs-number">25</span>, <span class="hljs-number">19</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>).getTime()) <span class="hljs-comment">//设置时间</span><br>    .build();<br></code></pre></td></tr></table></figure>
+<h3 id="32-crontrigger"><a class="markdownIt-Anchor" href="#32-crontrigger"></a> 3.2 CronTrigger</h3>
+<blockquote>
+<p>适合于更复杂的任务，它支持类型于Linux Cron的语法（并且更强大）。</p>
+<ul>
+<li>指定Cron表达式即可</li>
+</ul>
+</blockquote>
+<p>示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 在12月25日这天 每时每分每两秒执行一次任务</span><br>CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(<span class="hljs-string">&quot;trigger1&quot;</span>,<span class="hljs-string">&quot;group1&quot;</span>)<br>                .withSchedule(CronScheduleBuilder.cronSchedule(<span class="hljs-string">&quot;*/2 * * 25 12 ?&quot;</span>))<br>                .build();<br></code></pre></td></tr></table></figure>
+<h4 id="321-cron表达式组成"><a class="markdownIt-Anchor" href="#321-cron表达式组成"></a> 3.2.1 Cron表达式组成</h4>
+<blockquote>
+<p>表达式组成：“秒分时日月星期几[年]”，其中“年”是可选的，一般不指定。</p>
+<ul>
+<li>如：&quot;10 20 18 3 5 ?“代表&quot;5月3日18点20分10秒，星期几不确定”</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">位置</th>
+<th style="text-align:center">时间域</th>
+<th style="text-align:center">允许值</th>
+<th style="text-align:center">特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">秒</td>
+<td style="text-align:center">0-59</td>
+<td style="text-align:center">, - * /</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">分钟</td>
+<td style="text-align:center">0-59</td>
+<td style="text-align:center">, - * /</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">小时</td>
+<td style="text-align:center">0-23</td>
+<td style="text-align:center">, - * /</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">日期</td>
+<td style="text-align:center">1-31</td>
+<td style="text-align:center">, - * / L W</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">月份</td>
+<td style="text-align:center">1-12</td>
+<td style="text-align:center">, - * /</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">星期</td>
+<td style="text-align:center">1-7 （1代表星期天）</td>
+<td style="text-align:center">, - * / L #</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">年份（可选）</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">, - * /</td>
+</tr>
+</tbody>
+</table>
+<h4 id="322-cron表达式符号"><a class="markdownIt-Anchor" href="#322-cron表达式符号"></a> 3.2.2 Cron表达式符号</h4>
+<blockquote>
+<p>标达式中可使用的特殊符号的含义如下</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>符 号</th>
+<th>语义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>星 号 (*)</td>
+<td>可用在所有字段中,表示对应时间域的每一个时刻,例如,在分钟字段时,表示&quot;每分钟&quot;</td>
+</tr>
+<tr>
+<td>问 号 (?)</td>
+<td>该字符只在B期和星期字段中使用,它通常指定为“不确定值”</td>
+</tr>
+<tr>
+<td>减 号 (-)</td>
+<td>表达一个范围,如在小时字段中使用“10-12&quot;,则表示从10到12点, 即10,11,12</td>
+</tr>
+<tr>
+<td>逗 号 (,)</td>
+<td>表达一个列表值,如在星期字段中使用“MON,WED,FRI&quot;,则表示星期一,星期三和星期五</td>
+</tr>
+<tr>
+<td>斜 杠 (/)</td>
+<td>x/y表达一个等步长序列,x为起始值,y为增量步长值。如在分钟字段中使用0/15,则表示为0,15,30和45秒,而5/15在分钟字段 中表示5,20,35,50</td>
+</tr>
+<tr>
+<td>井 号 (#)</td>
+<td>该字符只用在星期字段中,&quot;4#2&quot;代表第二个星期3,“5#4”代表第4个星期四</td>
+</tr>
+<tr>
+<td>L</td>
+<td>该字符只在日期和星期字段中使用,代表&quot;Last&quot;的意思,但它在两个字段中意思不同。</td>
+</tr>
+<tr>
+<td></td>
+<td>如果L用在星期字段里,则表示星期六,等同于7</td>
+</tr>
+<tr>
+<td></td>
+<td>L出现在星期字段里,而且在前面有一个数值x,则表示“这个月的最后一个周x”,例如,6L表示该月的最后星期五</td>
+</tr>
+<tr>
+<td></td>
+<td>L在日期字段中,表示这个月份的最后一天,如一月的31号,非闰年二月的28号</td>
+</tr>
+<tr>
+<td>W</td>
+<td>该字符只能出现在日期字段里,是对前导日期的修饰,表示离该日期最近的工作日</td>
+</tr>
+<tr>
+<td></td>
+<td>例如15W表示离该月15号最近的工作日,如果该月15号是星期六,则匹配14号星期五:如果15日是星期日,则匹配16号星期一; 如果15号是星期二,那结果就是15号星期二;但必须注意关联的匹配日期不能够跨月</td>
+</tr>
+<tr>
+<td>LW 组 合</td>
+<td>在日期字段可以组合使用LW,它的意思是当月的最后一个工作日</td>
+</tr>
+</tbody>
+</table>
+<h4 id="323-cron表达式示例"><a class="markdownIt-Anchor" href="#323-cron表达式示例"></a> 3.2.3 Cron表达式示例</h4>
+<blockquote>
+<p>演示示例</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>表示式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0 12 * * ?</td>
+<td>每天12点运行</td>
+</tr>
+<tr>
+<td>0 15 10 * * ?</td>
+<td>每天10:15运行</td>
+</tr>
+<tr>
+<td>0 15 10 * * ? 2008</td>
+<td>在2008年的每天10: 15运行</td>
+</tr>
+<tr>
+<td>0 * 14 * * ?</td>
+<td>每天14点到15点之间每分钟运行一次,开始于14:00, 结束于14:59。</td>
+</tr>
+<tr>
+<td>0 0/5 14 * * ?</td>
+<td>每天14点到15点每5分钟运行一次,开始于14:00,结束于14:55。</td>
+</tr>
+<tr>
+<td>0 0/5 14,18 * * ?</td>
+<td>每天14点到15点每5分钟运行一次,此外每天18点到19点每5钟也运行一次。</td>
+</tr>
+<tr>
+<td>0 0-5 14 * * ?</td>
+<td>每天14:00点到14:05, 每分钟运行一次。</td>
+</tr>
+<tr>
+<td>0 0-5/2 14 * * ?</td>
+<td>每天14:00点到14:05, 每2分钟运行一次。</td>
+</tr>
+<tr>
+<td>0 10,44 14 ? 3 4</td>
+<td>3月每周三的14:10分和14:44, 每分钟运行一-次。</td>
+</tr>
+<tr>
+<td>0 15 10 ? * 2-6</td>
+<td>每周一,二,三,四,五的10:15分运行。</td>
+</tr>
+<tr>
+<td>0 15 10 15 * ?</td>
+<td>每月15日10:15分运行。</td>
+</tr>
+<tr>
+<td>0 15 10 L * ?</td>
+<td>每月最后一天10:15分运行。</td>
+</tr>
+<tr>
+<td>0 15 10 ? * 6L</td>
+<td>每月最后一个星期五10:15分运行。 [此时天必须是&quot;?&quot;]</td>
+</tr>
+<tr>
+<td>0 15 10 ? * 6L 2007-2009</td>
+<td>在2007,2008,2009年每个月的最后一个星期五的10:15分运行。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四-spring整合quartz重点"><a class="markdownIt-Anchor" href="#四-spring整合quartz重点"></a> 四、Spring整合Quartz（重点）</h2>
+<h3 id="41-依赖"><a class="markdownIt-Anchor" href="#41-依赖"></a> 4.1 依赖</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">springframework.version</span>&gt;</span>5.1.6.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">springframework.version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">quartz.version</span>&gt;</span>2.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">quartz.version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context-support<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-tx<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.quartz-scheduler<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>quartz<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;quartz.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="42-定义job"><a class="markdownIt-Anchor" href="#42-定义job"></a> 4.2 定义Job</h3>
+<blockquote>
+<p>定义一个Job</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyJob</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Job</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(JobExecutionContext jobExecutionContext)</span> <span class="hljs-keyword">throws</span> JobExecutionException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;job 执行了 &quot;</span> + <span class="hljs-keyword">new</span> Date());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="43-配置"><a class="markdownIt-Anchor" href="#43-配置"></a> 4.3 配置</h3>
+<blockquote>
+<p><code>applicationContext.xml</code></p>
+<p>调度器 <code>SchedulerFactoryBean</code></p>
+<p>触发器 <code>CronTriggerFactoryBean</code></p>
+<p>JobDetail <code>JobDetailFactoryBean</code></p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">        Spring整合Quartz进行配置遵循下面的步骤：</span><br><span class="hljs-comment">        1:定义工作任务的Job</span><br><span class="hljs-comment">        2:定义触发器Trigger,并将触发器与工作任务绑定</span><br><span class="hljs-comment">        3:定义调度器，并将Trigger注册到Scheduler</span><br><span class="hljs-comment">    --&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 1：定义任务的bean,这里使用JobDetailFactoryBean,也可以使用MethodInvokingJobDetailFactoryBean,配置类似 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;lxJob&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Job名称 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;job1&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Job分组 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;group&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;job_group1&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定具体Job类 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;jobClass&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;com.qf.quartz.MyJob&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 定义触发器的bean,定义一个Cron的Trigger,一个触发器只能和一个任务进行绑定 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cronTrigger&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Trigger名称 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;trigger1&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Trigger分组 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;group&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;trigger_group1&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Trigger绑定的JobDetail --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;jobDetail&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;lxJob&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 指定Cron表达式 当前是没五秒执行一次 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;cronExpression&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;*/5 * * * * ?&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 定义调度器，并将Trigger注册到调度器中 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;scheduler&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;triggers&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">ref</span> <span class="hljs-attr">bean</span>=<span class="hljs-string">&quot;cronTrigger&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 添加 quartz 配置，如下两种方法皆可 --&gt;</span><br>        <span class="hljs-comment">&lt;!--        &lt;property name=&quot;quartzProperties&quot; value=&quot;classpath:quartz.properties&quot;/&gt;--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;quartzProperties&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span><br>                # 名为：quartz.properties,放置在classpath下，如果没有此配置则按默认配置启动<br>                # 指定调度器名称，非实现类<br>                org.quartz.scheduler.instanceName=DefaultQuartzScheduler<br>                # 指定线程池实现类<br>                org.quartz.threadPool.class=org.quartz.simpl.SimpleThreadPool<br>                # 线程池线程数量<br>                org.quartz.threadPool.threadCount = 10<br>                # 优先级，默认5<br>                org.quartz.threadPool.threadPriority=5<br>                # 非持久化job<br>                org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore<br>            <span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="44-操作"><a class="markdownIt-Anchor" href="#44-操作"></a> 4.4 操作</h3>
+<h4 id="441-启动任务"><a class="markdownIt-Anchor" href="#441-启动任务"></a> 4.4.1 启动任务</h4>
+<blockquote>
+<p>工厂启动，调度器启动，任务调度开始</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuartzTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//工厂启动，任务启动，工厂关闭，任务停止</span><br>        ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;applicationContext.xml&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="442-任务操作"><a class="markdownIt-Anchor" href="#442-任务操作"></a> 4.4.2 任务操作</h4>
+<h5 id="4421-删除任务"><a class="markdownIt-Anchor" href="#4421-删除任务"></a> 4.4.2.1 删除任务</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException, SchedulerException </span>&#123;<br>    <span class="hljs-comment">//工厂启动，任务启动，工厂关闭，任务停止</span><br>    ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;applicationContext.xml&quot;</span>);<br>    Thread.sleep(<span class="hljs-number">5000</span>);<br>    StdScheduler stdScheduler = (StdScheduler) context.getBean(<span class="hljs-string">&quot;scheduler&quot;</span>);<br><br>    <span class="hljs-comment">//任务删除</span><br>    stdScheduler.deleteJob(JobKey.jobKey(<span class="hljs-string">&quot;job1&quot;</span>, <span class="hljs-string">&quot;job_group1&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="4422-任务的暂停-恢复"><a class="markdownIt-Anchor" href="#4422-任务的暂停-恢复"></a> 4.4.2.2 任务的暂停、恢复</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException, SchedulerException </span>&#123;<br>    <span class="hljs-comment">//工厂启动，任务启动，工厂关闭，任务停止</span><br>    ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;applicationContext.xml&quot;</span>);<br>    Thread.sleep(<span class="hljs-number">5000</span>);<br>    StdScheduler stdScheduler = (StdScheduler) context.getBean(<span class="hljs-string">&quot;scheduler&quot;</span>);<br><br>    <span class="hljs-comment">//任务删除</span><br>    <span class="hljs-comment">//        stdScheduler.deleteJob(JobKey.jobKey(&quot;job1&quot;, &quot;job_group1&quot;));</span><br><br>    <span class="hljs-comment">//任务暂停</span><br>    stdScheduler.pauseJob(JobKey.jobKey(<span class="hljs-string">&quot;job1&quot;</span>, <span class="hljs-string">&quot;job_group1&quot;</span>));<br>    Thread.sleep(<span class="hljs-number">5000</span>);<br>    <span class="hljs-comment">//恢复任务</span><br>    stdScheduler.resumeJob(JobKey.jobKey(<span class="hljs-string">&quot;job1&quot;</span>, <span class="hljs-string">&quot;job_group1&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="4423-任务的批量操作"><a class="markdownIt-Anchor" href="#4423-任务的批量操作"></a> 4.4.2.3 任务的批量操作</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException, SchedulerException </span>&#123;<br>    <span class="hljs-comment">//工厂启动，任务启动，工厂关闭，任务停止</span><br>    ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;applicationContext.xml&quot;</span>);<br>    Thread.sleep(<span class="hljs-number">5000</span>);<br>    StdScheduler stdScheduler = (StdScheduler) context.getBean(<span class="hljs-string">&quot;scheduler&quot;</span>);<br><br>    <span class="hljs-comment">//批量操作 通过任务组</span><br>    stdScheduler.pauseJobs(GroupMatcher.groupEquals(<span class="hljs-string">&quot;job_group1&quot;</span>));     <span class="hljs-comment">//暂停</span><br>    Thread.sleep(<span class="hljs-number">3000</span>);<br>    stdScheduler.resumeJobs(GroupMatcher.groupEquals(<span class="hljs-string">&quot;job_group1&quot;</span>));    <span class="hljs-comment">//恢复</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="4424-任务的批量删除"><a class="markdownIt-Anchor" href="#4424-任务的批量删除"></a> 4.4.2.4 任务的批量删除</h5>
+<blockquote>
+<p>删除比较敏感，暂不支持批量删除任务</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3845b88.html">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaLog</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/ae0f95e0.html">
+                        <span class="hidden-mobile">SpringMVC</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('twikoo', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/twikoo@0.6.0/dist/twikoo.all.min.js', function () {
+        twikoo.init({ envId: 'twikoo-2g1h50xa57a8462d' })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备20006573号-2
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
